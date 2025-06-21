@@ -111,6 +111,38 @@ namespace DersWebSatis
         }
         #endregion
 
+        #region KATEGORİ BAZLI ÜRÜN LİSTESİ
+        public void KategoriBazliUrunListesi()
+        {
+            List<UrunKategori> kategoriler = _db.Kategoris.OrderBy(p=> p.Adi).ToList();
+
+            foreach (var kategori in kategoriler)
+            {
+                Console.WriteLine($"Kategori: {kategori.Adi} [{kategori.KategoriNo}] - {kategori.Aciklama}");
+                Console.WriteLine("--------------------------------------------");
+
+                var urunler = _db.Uruns
+                    .Where(u=> u.KategoriId == kategori.Id)
+                    .Select(s=> new
+                    {
+                        s.BarkodNo,
+                        s.Adi,
+                        s.BirimFiyat,
+                        s.Stok
+                    })
+                    .OrderBy(u=>u.Adi)
+                    .ToList();
+
+                foreach (var urun in urunler)
+                {
+                    Console.WriteLine($"   {urun.BarkodNo} - {urun.Adi} - {urun.BirimFiyat} TL - {urun.Stok} ad.");
+                }
+
+                Console.WriteLine();
+                Console.WriteLine();
+            }
+        }
+        #endregion
 
         #region SİPARİŞ DETAY İŞLEMLERİ (SiparisItem)
 
@@ -133,6 +165,30 @@ namespace DersWebSatis
             return "Sipariş detayları eklendi";
         }
 
+
+        // SiparisItem Listele
+        public List<SiparisItem> SiparisItemListele()
+        {
+            return _db.SiparisItems.ToList();
+        }
+
+
+        // Sipariş bazlı SiparişItem Toplamı
+        public void SiparisItemGrupBazliToplam(List<SiparisItem> siparisItems)
+        {
+            var liste = _db.SiparisItems
+                          .GroupBy(p => p.SiparisId)
+                          .Select(x => new
+                          {
+                              SiparisId = x.Key,
+                              toplamAra = x.Sum(p => p.AraToplam)
+                          });
+
+            foreach (var item in liste)
+            {
+                Console.WriteLine($"Sipariş Id: {item.SiparisId} - Sipariş toplamı: {item.toplamAra}");
+            }
+        }
         #endregion
 
     }

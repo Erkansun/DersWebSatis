@@ -21,5 +21,7 @@ namespace DersWebSatis.Model
         public int KategoriId { get; set; }
         [ForeignKey("KategoriId")]
         public UrunKategori Kategori { get; set; }
+
+        public ICollection<SiparisItem> SiparisItem { get; set; } = new List<SiparisItem>();
     }
 }
