@@ -3,6 +3,7 @@ using DersWebSatis.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,53 @@ namespace DersWebSatis
 
             return $"Kullanıcılar eklendi";
         }
+
+        // ŞifreGüncelle
+        public string SifreGuncelle(int kullaniciID, string mevcutSifre, string yeniSifre)
+        {
+            Kullanici kullaniciData = _db.Kullanicis.Find(kullaniciID);
+
+            if (kullaniciData.Sifre != Auth.Hash(mevcutSifre))
+                return "Mevcut şifreniz girdiğiniz şifre ile uyuşmuyor";
+            else
+            {
+                kullaniciData.Sifre = Auth.Hash(yeniSifre);
+                _db.SaveChanges();
+
+                return "Şifreniz başarı ile güncellendi";
+            }
+        }
+
+
+        // Tüm Kullanıcıların Şifresini Şifrele
+        public string SifreGuncelleTumKullanicilar()
+        {
+            List<Kullanici> kullaniciTumu = _db.Kullanicis.ToList();
+
+            foreach (var kullanici in kullaniciTumu)
+            {
+                kullanici.Sifre= Auth.Hash(kullanici.Sifre);
+                _db.SaveChanges();
+            }
+
+            return "Kullanıcıların şifreleri 256 bit ile şifrelendi";
+
+        }
+
+
+        // Tek Kullanıcının Şifresini Şifrele
+        public string SifreSifreleTekKullanici(int KullaniciId, string Sifre)
+        {
+            var kullanici = _db.Kullanicis.Where(p=> p.Id == KullaniciId).FirstOrDefault();
+
+            kullanici.Sifre = Auth.Hash(Sifre);
+            _db.SaveChanges();
+
+            return $"{kullanici.AdSoyad} 'ın şifresi güncellendi";
+        }
+
+
+
         #endregion
 
         #region ÜRÜN KATEGORİ İŞLEMLERİ

@@ -1,4 +1,5 @@
 ﻿using DersWebSatis.Model;
+using System;
 
 namespace DersWebSatis
 {
@@ -403,11 +404,33 @@ namespace DersWebSatis
 
             #region Kategori Bazlı Ürün Listesi
 
-            Console.WriteLine("KATEGORİ BAZLI ÜRÜN LİSTESİ");
-            Console.WriteLine("---------------------------");
-            Console.WriteLine();
+            //Console.WriteLine("KATEGORİ BAZLI ÜRÜN LİSTESİ");
+            //Console.WriteLine("---------------------------");
+            //Console.WriteLine();
 
-            dbHelper.KategoriBazliUrunListesi();
+            //dbHelper.KategoriBazliUrunListesi();
+
+            #endregion
+
+
+            #region  Şifre Güncelle
+
+            //Console.WriteLine(dbHelper.SifreGuncelle(kullaniciID: 3, mevcutSifre: "pass123", yeniSifre: "passw0rd123@"));
+
+            #endregion
+
+
+            #region Tek Kullanıcının Şifresini Şifrele
+
+            //Console.Write("Şifresini şifrelemek istediğiniz kullanıcı Id: ");
+            //int kulId = Convert.ToInt32(Console.ReadLine());
+
+            //Console.Write("Şifre giriniz: ");
+            //string kulSifre = Console.ReadLine();
+
+            //string kulIslem = dbHelper.SifreSifreleTekKullanici(KullaniciId: kulId, Sifre: kulSifre);
+
+            //Console.WriteLine(kulIslem);
 
             #endregion
 
