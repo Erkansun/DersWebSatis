@@ -434,6 +434,25 @@ namespace DersWebSatis
 
             #endregion
 
+
+            #region Kullanıcı Bazlı Siparişler
+
+            var kullBazSip = dbHelper.KullaniciBazliSiparisler();
+
+            int sira = 1;
+
+            Console.WriteLine("Kullanıcı Bazlı Siparişler");
+            Console.WriteLine("--------------------------");
+
+            foreach (var item in kullBazSip)
+            {
+                Console.WriteLine($"{sira} - {item.Kullanici.AdSoyad} - Sipariş No: {item.SiparisNo} - Sipariş Toplam: {item.Toplam.ToString("N0")} TL");
+                sira++;
+            }
+
+            #endregion
+
+
             Console.ReadKey();
         }
     }

@@ -78,6 +78,15 @@ namespace DersWebSatis
         }
 
 
+        // Kullanıcı Bazlı Siparişler
+        public List<Siparis> KullaniciBazliSiparisler()
+        {
+            var kullBazSip = _db.Sipsaris
+                                .Include(p => p.Kullanici)
+                                .ToList();
+
+            return kullBazSip;
+        }
 
         #endregion
 
