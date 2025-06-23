@@ -437,21 +437,35 @@ namespace DersWebSatis
 
             #region Kullanıcı Bazlı Siparişler
 
-            var kullBazSip = dbHelper.KullaniciBazliSiparisler();
+            //var kullBazSip = dbHelper.KullaniciBazliSiparisler();
 
-            int sira = 1;
+            //int sira = 1;
 
-            Console.WriteLine("Kullanıcı Bazlı Siparişler");
-            Console.WriteLine("--------------------------");
+            //Console.WriteLine("Kullanıcı Bazlı Siparişler");
+            //Console.WriteLine("--------------------------");
 
-            foreach (var item in kullBazSip)
-            {
-                Console.WriteLine($"{sira} - {item.Kullanici.AdSoyad} - Sipariş No: {item.SiparisNo} - Sipariş Toplam: {item.Toplam.ToString("N0")} TL");
-                sira++;
-            }
+            //foreach (var item in kullBazSip)
+            //{
+            //    Console.WriteLine($"{sira} - {item.Kullanici.AdSoyad} - Sipariş No: {item.SiparisNo} - Sipariş Toplam: {item.Toplam.ToString("N0")} TL");
+            //    sira++;
+            //}
 
             #endregion
 
+
+            #region En Çok Harcama Yapan 3 Müşteri
+
+            var enCokHarcamaYapan = dbHelper.EnCokHarcamaYapanMusteri();
+
+            Console.WriteLine("En Çok Harcama Yapan 3 Müşteri");
+            Console.WriteLine("------------------------------");
+
+            for (int i = 1; i <= 3; i++)
+            {
+                Console.WriteLine($"{i} - {enCokHarcamaYapan[i].Kullanici.AdSoyad.ToString()} - {enCokHarcamaYapan[i].Toplam.ToString("N0")} TL");
+            }
+
+            #endregion
 
             Console.ReadKey();
         }

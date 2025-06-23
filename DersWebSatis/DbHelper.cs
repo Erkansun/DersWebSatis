@@ -49,7 +49,6 @@ namespace DersWebSatis
             }
         }
 
-
         // Tüm Kullanıcıların Şifresini Şifrele
         public string SifreGuncelleTumKullanicilar()
         {
@@ -65,7 +64,6 @@ namespace DersWebSatis
 
         }
 
-
         // Tek Kullanıcının Şifresini Şifrele
         public string SifreSifreleTekKullanici(int KullaniciId, string Sifre)
         {
@@ -77,7 +75,6 @@ namespace DersWebSatis
             return $"{kullanici.AdSoyad} 'ın şifresi güncellendi";
         }
 
-
         // Kullanıcı Bazlı Siparişler
         public List<Siparis> KullaniciBazliSiparisler()
         {
@@ -87,6 +84,18 @@ namespace DersWebSatis
 
             return kullBazSip;
         }
+
+        // En Çok Harcama Yapan 3 Müşteri
+        public List<Siparis> EnCokHarcamaYapanMusteri()
+        {
+            var kul= _db.Sipsaris
+                        .OrderByDescending(p=> p.Toplam)
+                        .Include(p=> p.Kullanici)
+                        .ToList();
+
+            return kul;
+        }
+
 
         #endregion
 
