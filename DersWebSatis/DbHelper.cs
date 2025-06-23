@@ -96,6 +96,29 @@ namespace DersWebSatis
             return kul;
         }
 
+        // Kullanıcı Listeleme
+        public List<Kullanici> TumKullanicilariListele()
+        {
+            var tumKullanicilar = _db.Kullanicis.OrderBy(p=> p.AdSoyad).ToList();
+
+            return tumKullanicilar;
+        }
+
+
+        // Girilen Müşteri Sayısına Göre Kullanıcı Bazlı Sipariş ve Detay Listeleme
+        public List<Siparis> MusteriBazliDetayliSiparisListele(int musteriSayisi)
+        {
+            var musteriBazli = _db.Sipsaris
+                                    .Include(p => p.Kullanici)
+                                    .Include(p => p.SiparisItems)
+                                        .ThenInclude(p=> p.Uruns)
+                                    .OrderBy(p => p.Kullanici.AdSoyad)
+                                    .Take(musteriSayisi)
+                                    .ToList();
+
+            return musteriBazli;
+        }
+
 
         #endregion
 
@@ -108,7 +131,6 @@ namespace DersWebSatis
 
             return $"Kategori eklendi";
         }
-
 
         // Ürün Kategorisi Ekle (çoklu)
         public string UrunKategorisiEkleToplu(List<UrunKategori> dataKategoriler)
@@ -208,6 +230,7 @@ namespace DersWebSatis
                 Console.WriteLine();
             }
         }
+
         #endregion
 
         #region SİPARİŞ DETAY İŞLEMLERİ (SiparisItem)

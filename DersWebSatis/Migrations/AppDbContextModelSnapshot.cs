@@ -50,7 +50,7 @@ namespace DersWebSatis.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kullanicis");
+                    b.ToTable("Kullanicis", (string)null);
                 });
 
             modelBuilder.Entity("DersWebSatis.Model.Siparis", b =>
@@ -78,7 +78,7 @@ namespace DersWebSatis.Migrations
 
                     b.HasIndex("KullaniciId");
 
-                    b.ToTable("Sipsaris");
+                    b.ToTable("Sipsaris", (string)null);
                 });
 
             modelBuilder.Entity("DersWebSatis.Model.SiparisItem", b =>
@@ -110,7 +110,7 @@ namespace DersWebSatis.Migrations
 
                     b.HasIndex("UrunId");
 
-                    b.ToTable("SiparisItems");
+                    b.ToTable("SiparisItems", (string)null);
                 });
 
             modelBuilder.Entity("DersWebSatis.Model.Urun", b =>
@@ -151,7 +151,7 @@ namespace DersWebSatis.Migrations
 
                     b.HasIndex("KategoriId");
 
-                    b.ToTable("Uruns");
+                    b.ToTable("Uruns", (string)null);
                 });
 
             modelBuilder.Entity("DersWebSatis.Model.UrunKategori", b =>
@@ -184,7 +184,7 @@ namespace DersWebSatis.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kategoris");
+                    b.ToTable("Kategoris", (string)null);
                 });
 
             modelBuilder.Entity("DersWebSatis.Model.Siparis", b =>

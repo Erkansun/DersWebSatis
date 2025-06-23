@@ -1,4 +1,6 @@
-﻿using DersWebSatis.Model;
+﻿using DersWebSatis.Data;
+using DersWebSatis.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace DersWebSatis
@@ -455,15 +457,15 @@ namespace DersWebSatis
 
             #region En Çok Harcama Yapan 3 Müşteri
 
-            var enCokHarcamaYapan = dbHelper.EnCokHarcamaYapanMusteri();
+            //var enCokHarcamaYapan = dbHelper.EnCokHarcamaYapanMusteri();
 
-            Console.WriteLine("En Çok Harcama Yapan 3 Müşteri");
-            Console.WriteLine("------------------------------");
+            //Console.WriteLine("En Çok Harcama Yapan 3 Müşteri");
+            //Console.WriteLine("------------------------------");
 
-            for (int i = 1; i <= 3; i++)
-            {
-                Console.WriteLine($"{i} - {enCokHarcamaYapan[i].Kullanici.AdSoyad.ToString()} - {enCokHarcamaYapan[i].Toplam.ToString("N0")} TL");
-            }
+            //for (int i = 1; i <= 3; i++)
+            //{
+            //    Console.WriteLine($"{i} - {enCokHarcamaYapan[i].Kullanici.AdSoyad.ToString()} - {enCokHarcamaYapan[i].Toplam.ToString("N0")} TL");
+            //}
 
             #endregion
 

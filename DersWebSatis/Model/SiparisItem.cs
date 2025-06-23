@@ -19,5 +19,6 @@ namespace DersWebSatis.Model
         [ForeignKey("SiparisId")]
         public Siparis Siparis { get; set; }
 
+        public ICollection<Urun> Uruns { get; set; }
     }
 }
