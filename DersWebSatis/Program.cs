@@ -7,6 +7,8 @@ namespace DersWebSatis
 {
     internal class Program
     {
+        private AppDbContext _db = new AppDbContext();
+
         static void Main(string[] args)
         {
             DbHelper dbHelper = new DbHelper();
@@ -472,14 +474,19 @@ namespace DersWebSatis
 
             #region Kullanıcıların Toplam Harcama Tutarı ve Sipariş Sayısı
 
-            Console.WriteLine("Kullanıcı Bazlı Sipariş Toplam ve Sayısı");
-            Console.WriteLine("----------------------------------------");
+            //Console.WriteLine("Kullanıcı Bazlı Sipariş Toplam ve Sayısı");
+            //Console.WriteLine("----------------------------------------");
 
-            dbHelper.KullaniciToplamHarcamaYazdir();
+            //dbHelper.KullaniciToplamHarcamaYazdir();
 
             #endregion
 
 
+            #region Kategori Bazlı Ürün Satış Gelirleri
+
+            //dbHelper.KategoriBazliUrunIslemleri();
+
+            #endregion
 
 
             Console.ReadKey();

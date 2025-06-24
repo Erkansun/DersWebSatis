@@ -3,6 +3,7 @@ using DersWebSatis.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -133,7 +134,7 @@ namespace DersWebSatis
                                     {
                                         kullaniciAd = s.Key.AdSoyad,
                                         sipSayisi = s.Count(),
-                                        toplamHarcama = s.Sum(t=> t.Toplam)
+                                        toplamHarcama = s.Sum(t => t.Toplam)
                                     })
                                     .ToList();
 
@@ -178,12 +179,9 @@ namespace DersWebSatis
                 .ToList();
         }
 
-        // Kategori Bazlı Ürün Satış Gelirleri
-
-
         #endregion
 
-        #region ÜRÜN EKLEME İŞLEMLERİ
+        #region ÜRÜN İŞLEMLERİ
         // Ürün Ekle (tekli)
         public string UrunEkle(Urun urunTek)
         {
@@ -193,7 +191,6 @@ namespace DersWebSatis
             return $"Ürün eklendi";
         }
 
-
         // Ürün Ekle (toplu)
         public string UrunEkleToplu(List<Urun> urunToplu)
         {
@@ -202,6 +199,18 @@ namespace DersWebSatis
 
             return $"Urunler eklendi";
         }
+
+        // Ürün Listesi
+        public List<Urun> UrunListesi()
+        {
+            var urunler = _db.Uruns
+                              .OrderBy(p => p.Adi)
+                              .ToList();
+
+            return urunler;
+        }
+
+
         #endregion
 
         #region SİPARİŞ İŞLEMLERİ
@@ -226,7 +235,7 @@ namespace DersWebSatis
         }
         #endregion
 
-        #region KATEGORİ BAZLI ÜRÜN LİSTESİ
+        #region KATEGORİ BAZLI ÜRÜN İŞLEMLERİ
         public void KategoriBazliUrunListesi()
         {
             List<UrunKategori> kategoriler = _db.Kategoris.OrderBy(p => p.Adi).ToList();
@@ -254,6 +263,44 @@ namespace DersWebSatis
                 }
 
                 Console.WriteLine();
+                Console.WriteLine();
+            }
+        }
+
+        // Kategori Bazlı Ürün Satış Gelirleri
+        public void KategoriBazliUrunIslemleri()
+        {
+            List<UrunKategori> kategoriler = _db.Kategoris.OrderBy(p => p.Adi).ToList();
+
+            foreach (var kategori in kategoriler)
+            {
+                Console.WriteLine($"Kategori: {kategori.Adi} [{kategori.KategoriNo}] - {kategori.Aciklama}");
+
+                var urunler = _db.Uruns
+                                    .Where(u => u.KategoriId == kategori.Id)
+                                    .OrderBy(p => p.Adi)
+                                    .ToList();
+
+                foreach(var urun in urunler)
+                {
+                    Console.WriteLine($"   {urun.BarkodNo} - {urun.Adi} - {urun.BirimFiyat}");
+
+                    var siparisler = _db.SiparisItems
+                    .Where(p => p.UrunId == urun.Id)
+                    .GroupBy(p => p.UrunId)
+                    .Select(s => new
+                    {
+                        SiparisID = s.Key,
+                        urunToplam = s.Sum(u => u.AraToplam)
+                    })
+                    .ToList();
+
+                    foreach (var siparis in siparisler)
+                    {
+                        Console.WriteLine($"      Toplam Satış : {siparis.urunToplam.ToString("N0")} TL");
+                    }
+                }
+
                 Console.WriteLine();
             }
         }
