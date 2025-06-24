@@ -56,7 +56,7 @@ namespace DersWebSatis
 
             foreach (var kullanici in kullaniciTumu)
             {
-                kullanici.Sifre= Auth.Hash(kullanici.Sifre);
+                kullanici.Sifre = Auth.Hash(kullanici.Sifre);
                 _db.SaveChanges();
             }
 
@@ -67,7 +67,7 @@ namespace DersWebSatis
         // Tek Kullanıcının Şifresini Şifrele
         public string SifreSifreleTekKullanici(int KullaniciId, string Sifre)
         {
-            var kullanici = _db.Kullanicis.Where(p=> p.Id == KullaniciId).FirstOrDefault();
+            var kullanici = _db.Kullanicis.Where(p => p.Id == KullaniciId).FirstOrDefault();
 
             kullanici.Sifre = Auth.Hash(Sifre);
             _db.SaveChanges();
@@ -88,9 +88,9 @@ namespace DersWebSatis
         // En Çok Harcama Yapan 3 Müşteri
         public List<Siparis> EnCokHarcamaYapanMusteri()
         {
-            var kul= _db.Sipsaris
-                        .OrderByDescending(p=> p.Toplam)
-                        .Include(p=> p.Kullanici)
+            var kul = _db.Sipsaris
+                        .OrderByDescending(p => p.Toplam)
+                        .Include(p => p.Kullanici)
                         .ToList();
 
             return kul;
@@ -99,11 +99,10 @@ namespace DersWebSatis
         // Kullanıcı Listeleme
         public List<Kullanici> TumKullanicilariListele()
         {
-            var tumKullanicilar = _db.Kullanicis.OrderBy(p=> p.AdSoyad).ToList();
+            var tumKullanicilar = _db.Kullanicis.OrderBy(p => p.AdSoyad).ToList();
 
             return tumKullanicilar;
         }
-
 
         // Girilen Müşteri Sayısına Göre Kullanıcı Bazlı Sipariş ve Detay Listeleme
         public List<Siparis> MusteriBazliDetayliSiparisListele(int musteriSayisi)
@@ -111,7 +110,7 @@ namespace DersWebSatis
             var musteriBazli = _db.Sipsaris
                                     .Include(p => p.Kullanici)
                                     .Include(p => p.SiparisItems)
-                                        .ThenInclude(p=> p.Uruns)
+                                        .ThenInclude(p => p.Uruns)
                                     .OrderBy(p => p.Kullanici.AdSoyad)
                                     .Take(musteriSayisi)
                                     .ToList();
@@ -119,6 +118,30 @@ namespace DersWebSatis
             return musteriBazli;
         }
 
+        // Kullanıcıların Toplam Harcama Tutarı ve Sipariş Sayısı
+        public void KullaniciToplamHarcamaYazdir()
+        {
+            var sipKullanici = _db.Sipsaris
+                                    .Include(p => p.Kullanici)
+                                    .ToList()
+                                    .GroupBy(g => new
+                                    {
+                                        g.Kullanici.Id,
+                                        g.Kullanici.AdSoyad
+                                    })
+                                    .Select(s => new
+                                    {
+                                        kullaniciAd = s.Key.AdSoyad,
+                                        sipSayisi = s.Count(),
+                                        toplamHarcama = s.Sum(t=> t.Toplam)
+                                    })
+                                    .ToList();
+
+            foreach (var item in sipKullanici)
+            {
+                Console.WriteLine($"{item.kullaniciAd} - Sipariş Tutarı: {item.toplamHarcama.ToString("N0")} TL - Sipariş Sayısı : {item.sipSayisi}");
+            }
+        }
 
         #endregion
 
@@ -154,6 +177,10 @@ namespace DersWebSatis
                 .Where(p => p.Id == kategoriId)
                 .ToList();
         }
+
+        // Kategori Bazlı Ürün Satış Gelirleri
+
+
         #endregion
 
         #region ÜRÜN EKLEME İŞLEMLERİ
@@ -202,7 +229,7 @@ namespace DersWebSatis
         #region KATEGORİ BAZLI ÜRÜN LİSTESİ
         public void KategoriBazliUrunListesi()
         {
-            List<UrunKategori> kategoriler = _db.Kategoris.OrderBy(p=> p.Adi).ToList();
+            List<UrunKategori> kategoriler = _db.Kategoris.OrderBy(p => p.Adi).ToList();
 
             foreach (var kategori in kategoriler)
             {
@@ -210,15 +237,15 @@ namespace DersWebSatis
                 Console.WriteLine("--------------------------------------------");
 
                 var urunler = _db.Uruns
-                    .Where(u=> u.KategoriId == kategori.Id)
-                    .Select(s=> new
+                    .Where(u => u.KategoriId == kategori.Id)
+                    .Select(s => new
                     {
                         s.BarkodNo,
                         s.Adi,
                         s.BirimFiyat,
                         s.Stok
                     })
-                    .OrderBy(u=>u.Adi)
+                    .OrderBy(u => u.Adi)
                     .ToList();
 
                 foreach (var urun in urunler)

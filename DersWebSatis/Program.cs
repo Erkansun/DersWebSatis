@@ -469,6 +469,19 @@ namespace DersWebSatis
 
             #endregion
 
+
+            #region Kullanıcıların Toplam Harcama Tutarı ve Sipariş Sayısı
+
+            Console.WriteLine("Kullanıcı Bazlı Sipariş Toplam ve Sayısı");
+            Console.WriteLine("----------------------------------------");
+
+            dbHelper.KullaniciToplamHarcamaYazdir();
+
+            #endregion
+
+
+
+
             Console.ReadKey();
         }
     }

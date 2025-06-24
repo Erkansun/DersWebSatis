@@ -13,7 +13,7 @@ namespace DersWebSatis.Model
         public int UrunId { get; set; }
         public double UrunFiyat { get; set; }
         public int Adet { get; set; }
-        public double AraToplam { get; set; }
+        public double AraToplam { get; set; } 
 
         public int SiparisId { get; set; }
         [ForeignKey("SiparisId")]
