@@ -1,4 +1,5 @@
 ﻿using DersWebSatis.Data;
+using DersWebSatis.DTO;
 using DersWebSatis.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -450,5 +451,22 @@ namespace DersWebSatis
             }
         }
         #endregion
+
+
+        // DTO İşlemleri
+        public List<dto_UrunAdFiyat> dtoUrunListele()
+        {
+            List<dto_UrunAdFiyat> sonuc = _db.Uruns
+                                                .Select(p=> new dto_UrunAdFiyat
+                                                 {
+                                                    Adi = p.Adi,
+                                                    Fiyat = p.BirimFiyat
+                                                })
+                                                .OrderBy(x => x.Adi)
+                                                .ToList();
+
+            return sonuc;
+        }
+
     }
 }
