@@ -265,7 +265,6 @@ namespace DersWebSatis
                         .ToList();
         }
 
-
         #endregion
 
         #region SİPARİŞ İŞLEMLERİ

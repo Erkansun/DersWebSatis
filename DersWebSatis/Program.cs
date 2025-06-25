@@ -491,23 +491,23 @@ namespace DersWebSatis
 
             // -------------------------------------------------------------------- //
 
-            // 1 - Tüm ürünlerin adlarını ve fiyatlarını listeleyin
-            List<Urun> urunler = dbHelper.UrunListesi();
+            //// 1 - Tüm ürünlerin adlarını ve fiyatlarını listeleyin
+            //List<Urun> urunler = dbHelper.UrunListesi();
 
-            foreach (var u in urunler)
-            {
-                Console.WriteLine($"Ürün adı: {u.Adi} - Fiyat: {u.BirimFiyat.ToString("N0")} TL");
-            }
+            //foreach (var u in urunler)
+            //{
+            //    Console.WriteLine($"Ürün adı: {u.Adi} - Fiyat: {u.BirimFiyat.ToString("N0")} TL");
+            //}
 
-            Console.WriteLine();
+            //Console.WriteLine();
 
-            //DTO ile yapılan aynı işlem
-            var urunDTO=dbHelper.dtoUrunListele();
+            ////DTO ile yapılan aynı işlem
+            //var urunDTO=dbHelper.dtoUrunListele();
 
-            foreach (var uru in urunDTO)
-            {
-                Console.WriteLine($"Ürün adı: {uru.Adi} - Fiyat: {uru.Fiyat.ToString("N0")} TL");
-            }
+            //foreach (var uru in urunDTO)
+            //{
+            //    Console.WriteLine($"Ürün adı: {uru.Adi} - Fiyat: {uru.Fiyat.ToString("N0")} TL");
+            //}
 
 
             //// 2- Stok miktarı 10'dan az olan ürünleri bulun.
@@ -528,7 +528,7 @@ namespace DersWebSatis
             //dbHelper.PasifUrunlerKategorili();
 
 
-            //// 4- En pahalı 5 ürünü ad ve fiyatları ile birlikte getirin.
+            // 4- En pahalı 5 ürünü ad ve fiyatları ile birlikte getirin.
             //Console.Write("En pahalı kaç ürün? : ");
             //int urunadet = Convert.ToInt32(Console.ReadLine());
 
@@ -618,26 +618,26 @@ namespace DersWebSatis
             //dbHelper.KullaniciToplamHarcamaYazdir();
 
 
-            //// 12- Son 30 gün içinde sipariş vermiş kullanıcıları listeleyin.
+            // 12- Son 30 gün içinde sipariş vermiş kullanıcıları listeleyin.
 
-            //List<Siparis> sipariss = dbHelper.SiparisListesi();
+            List<Siparis> sipariss = dbHelper.SiparisListesi();
 
-            //var musteriListesi = dbHelper.TumKullanicilariListele();
+            var musteriListesi = dbHelper.TumKullanicilariListele();
 
-            //foreach (var siparis in sipariss)
-            //{
-            //    if (sipariss.Any())
-            //    {
-            //        foreach (var musteri in musteriListesi.Where(p=> p.Id==siparis.Id))
-            //        {
-            //            Console.WriteLine($"{musteri.AdSoyad} - {musteri.Email} - {siparis.OlusturulmaTarihi}");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("Son 30 gün içinde listelenecek veri bulunamadı");
-            //    }
-            //}
+            foreach (var siparis in sipariss)
+            {
+                if (sipariss.Any())
+                {
+                    foreach (var musteri in musteriListesi.Where(p => p.Id == siparis.KullaniciId))
+                    {
+                        Console.WriteLine($"{musteri.AdSoyad} - {musteri.Email} - {siparis.OlusturulmaTarihi}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Son 30 gün içinde listelenecek veri bulunamadı");
+                }
+            }
 
 
 
