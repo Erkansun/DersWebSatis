@@ -575,7 +575,7 @@ namespace DersWebSatis
             //}
 
 
-            // 8- 2024 yılında eklenmiş ürünleri bulun.
+            //// 8- 2024 yılında eklenmiş ürünleri bulun.
             //List<Urun> urunListesi = dbHelper.UrunListesi();
 
             //int sira = 1;
@@ -590,6 +590,44 @@ namespace DersWebSatis
             //    }
             //}
 
+
+            //// 9- Birim fiyatı 50 ile 100 arasında olan ürünleri kategori adı ile birlikte listeleyin.
+            //var urunFiyat = dbHelper.UrunListesi();
+
+            //foreach (var urun in urunFiyat.Where(p=> p.BirimFiyat>=50 && p.BirimFiyat <=100))
+            //{
+            //    Console.WriteLine($"{urun.Adi} - {urun.BirimFiyat.ToString("N0")} TL");
+            //}
+
+
+            //// 10 - Her kategorideki ürünlerin toplam stok miktarını listeleyin.
+            //dbHelper.KategoriBazliUrunListesi();
+
+
+            //// 11- Her kullanıcının yaptığı toplam sipariş sayısını listeleyin (AdSoyad + Sipariş Sayısı).
+            //dbHelper.KullaniciToplamHarcamaYazdir();
+
+
+            // 12- Son 30 gün içinde sipariş vermiş kullanıcıları listeleyin.
+
+            List<Siparis> sipariss = dbHelper.SiparisListesi();
+
+            var musteriListesi = dbHelper.TumKullanicilariListele();
+
+            foreach (var siparis in sipariss)
+            {
+                if (sipariss.Any())
+                {
+                    foreach (var musteri in musteriListesi.Where(p=> p.Id==siparis.Id))
+                    {
+                        Console.WriteLine($"{musteri.AdSoyad} - {musteri.Email} - {siparis.OlusturulmaTarihi}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Son 30 gün içinde listelenecek veri bulunamadı");
+                }
+            }
 
 
 

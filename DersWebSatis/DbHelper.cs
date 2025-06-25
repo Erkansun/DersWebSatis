@@ -278,7 +278,6 @@ namespace DersWebSatis
             return $"Sipariş eklendi";
         }
 
-
         // Sipariş Ekleme (toplu)
         public string SiparisEkleToplu(List<Siparis> siparisToplu)
         {
@@ -287,6 +286,29 @@ namespace DersWebSatis
 
             return $"Siparişler eklendi";
         }
+
+        // sipariş vermiş kullanıcılar
+        public List<Siparis> MusteriBazlSiparis()
+        {
+            var musteriBazli = _db.Sipsaris
+                                    .Include(p => p.Kullanici)
+                                    .Include(p => p.SiparisItems)
+                                        .ThenInclude(p => p.Uruns)
+                                    .OrderBy(p => p.Kullanici.AdSoyad)
+                                    .ToList();
+
+            return musteriBazli;
+        }
+
+        // Sipariş Listesi
+        public List<Siparis> SiparisListesi()
+        {
+            return _db.Sipsaris
+                .Where(t => t.OlusturulmaTarihi >= DateTime.Now.AddDays(-30) && t.OlusturulmaTarihi <= DateTime.Now)
+                .OrderByDescending(p => p.OlusturulmaTarihi)
+                .ToList();
+        }
+
         #endregion
 
         #region KATEGORİ BAZLI ÜRÜN İŞLEMLERİ
@@ -325,7 +347,7 @@ namespace DersWebSatis
         public void KategoriBazliUrunSayisi()
         {
             var kategoriler = _db.Kategoris
-                                    .Include(p=> p.Urunler)
+                                    .Include(p => p.Urunler)
                                     .OrderBy(o => o.Adi)
                                     .ToList();
 
