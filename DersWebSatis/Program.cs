@@ -2,12 +2,13 @@
 using DersWebSatis.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Runtime.ConstrainedExecution;
 
 namespace DersWebSatis
 {
     internal class Program
     {
-        private AppDbContext _db = new AppDbContext();
+        //private AppDbContext _db = new AppDbContext();
 
         static void Main(string[] args)
         {
@@ -487,6 +488,111 @@ namespace DersWebSatis
             //dbHelper.KategoriBazliUrunIslemleri();
 
             #endregion
+
+            // -------------------------------------------------------------------- //
+
+            //// 1 - Tüm ürünlerin adlarını ve fiyatlarını listeleyin
+            //List<Urun> urunler = dbHelper.UrunListesi();
+
+            //foreach (var u in urunler)
+            //{
+            //    Console.WriteLine($"Ürün adı: {u.Adi} - Fiyat: {u.BirimFiyat.ToString("N0")} TL");
+            //}
+
+
+            //// 2- Stok miktarı 10'dan az olan ürünleri bulun.
+            //List<Urun> urunAz = dbHelper.UrunStokAz();
+
+            //int siraUrunAz = 1;
+
+            //foreach (var urun in urunAz)
+            //{
+            //    Console.WriteLine($"{siraUrunAz} - {urun.Adi} - {urun.Stok}");
+            //    siraUrunAz++;
+            //}
+
+            //Console.WriteLine("\nListe sonu...");
+
+
+            //// 3- Pasif olmayan ürünleri kategori adı ile birlikte listeleyin.
+            //dbHelper.PasifUrunlerKategorili();
+
+
+            //// 4- En pahalı 5 ürünü ad ve fiyatları ile birlikte getirin.
+            //Console.Write("En pahalı kaç ürün? : ");
+            //int urunadet = Convert.ToInt32(Console.ReadLine());
+
+            //List<Urun> urunListesiPahali = dbHelper.EnPahaliUrun(urunSayisi: urunadet);
+
+            //Console.WriteLine();
+
+            //int siraU = 1;
+
+            //foreach (var urun in urunListesiPahali)
+            //{
+            //    Console.WriteLine($"{siraU} - {urun.Adi} - {urun.BirimFiyat.ToString("N0")} TL");
+
+            //    siraU++;
+            //}
+
+
+            //// 5- Stokta olmayan (stok=0) ürünlerin adını ve barkod numarasını getirin.
+
+            //var liste = dbHelper.UrunStokOlmayan();
+
+            //if (liste.Count() >0)
+            //{
+            //    foreach (var urun in liste)
+            //    {
+            //        Console.WriteLine($"{urun.BarkodNo} - {urun.Adi} - {urun.Stok}");
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine("0 stoklu ürün bulunamadı");
+            //}
+
+
+            //// 6 - Her kategorideki ürün sayısını listeleyin(Kategori Adı +Ürün Sayısı).
+            //dbHelper.KategoriBazliUrunSayisi();
+
+
+            //// 7- Kategori adı "Giyim" olan ürünleri listeleyin.
+            //Console.Write("Ürünlerini görmek istediğiniz kategori adı: ");
+            //string kategoriAdi = Console.ReadLine();
+
+            //List<UrunKategori> kategoriSonuc = dbHelper.KategoriAdiGiyimUrunleri(kategoriAdi);
+
+            //Console.WriteLine($"{kategoriAdi} kategorisindeki ürünlerin listesi");
+            //Console.WriteLine("--------------------------------------");
+
+            //foreach (var kategori in kategoriSonuc)
+            //{
+            //    foreach (var item in kategori.Urunler.OrderBy(p => p.Adi))
+            //    {
+            //        Console.WriteLine($"Ürün adı: {item.Adi} - barkodu: {item.BarkodNo} - stok: {item.Stok} - fiyat: {item.BirimFiyat.ToString("N0")} TL");
+            //    }  
+            //}
+
+
+            // 8- 2024 yılında eklenmiş ürünleri bulun.
+            //List<Urun> urunListesi = dbHelper.UrunListesi();
+
+            //int sira = 1;
+
+            //foreach(var urun in urunListesi)
+            //{
+            //    if (urun.OlusturulmaTarihi.ToString("yyyy")=="2024")
+            //    {
+            //        Console.WriteLine($"{sira} - {urun.Adi} [{urun.OlusturulmaTarihi.ToString("dd-MM-yyyy")}]");
+
+            //        sira++;
+            //    }
+            //}
+
+
+
+
 
 
             Console.ReadKey();

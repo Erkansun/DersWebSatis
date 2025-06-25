@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -179,6 +180,31 @@ namespace DersWebSatis
                 .ToList();
         }
 
+        // Kategori Bazlı Pasif Ürün Listesi
+        public void PasifUrunlerKategorili()
+        {
+            List<UrunKategori> kategoriler = _db.Kategoris.OrderBy(p => p.Adi).ToList();
+
+            List<Urun> urunPasif = _db.Uruns.Where(p => p.IsPassive == true).ToList();
+
+            foreach (var kategori in kategoriler)
+            {
+                List<Urun> urunler = urunPasif
+                                .Where(u => u.KategoriId == kategori.Id)
+                                .ToList();
+
+                if (urunler.Any())
+                {
+                    Console.WriteLine($"\n{kategori.Adi}");
+
+                    foreach (var urun in urunler)
+                    {
+                        Console.WriteLine($"  -> {urun.Adi} [{urun.BarkodNo}] - {urun.Stok} ad. - {urun.BirimFiyat.ToString("N0")} TL");
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region ÜRÜN İŞLEMLERİ
@@ -208,6 +234,34 @@ namespace DersWebSatis
                               .ToList();
 
             return urunler;
+        }
+
+        // Stoku 10 dan az olan ürünlerin listesi
+        public List<Urun> UrunStokAz()
+        {
+            return _db.Uruns
+                .Where(p => p.Stok <= 30)
+                .OrderBy(p => p.Adi)
+                .ToList();
+        }
+
+        // En pahalı 5 ürünü ad ve fiyatları
+        public List<Urun> EnPahaliUrun(int urunSayisi)
+        {
+            List<Urun> pahaliUrunler = _db.Uruns
+                                            .OrderByDescending(p => p.BirimFiyat)
+                                            .Take(urunSayisi)
+                                            .ToList();
+
+            return pahaliUrunler;
+        }
+
+        // Stokta olmayan (stok=0) ürünlerin adını ve barkod numarası
+        public List<Urun> UrunStokOlmayan()
+        {
+            return _db.Uruns
+                        .Where(p => p.Stok == 0)
+                        .ToList();
         }
 
 
@@ -267,6 +321,21 @@ namespace DersWebSatis
             }
         }
 
+        // Kategori Bazlı Ürün Sayısı
+        public void KategoriBazliUrunSayisi()
+        {
+            var kategoriler = _db.Kategoris
+                                    .Include(p=> p.Urunler)
+                                    .OrderBy(o => o.Adi)
+                                    .ToList();
+
+            foreach (var kategori in kategoriler)
+            {
+                Console.WriteLine($"{kategori.Id} - {kategori.Adi} - {kategori.Aciklama} [{kategori.Urunler.Count()}]");
+            }
+        }
+
+
         // Kategori Bazlı Ürün Satış Gelirleri
         public void KategoriBazliUrunIslemleri()
         {
@@ -281,7 +350,7 @@ namespace DersWebSatis
                                     .OrderBy(p => p.Adi)
                                     .ToList();
 
-                foreach(var urun in urunler)
+                foreach (var urun in urunler)
                 {
                     Console.WriteLine($"   {urun.BarkodNo} - {urun.Adi} - {urun.BirimFiyat}");
 
@@ -305,6 +374,15 @@ namespace DersWebSatis
             }
         }
 
+        // Kategori adı "Giyim" olan ürünler
+        public List<UrunKategori> KategoriAdiGiyimUrunleri(string kategoriAdi)
+        {
+            return _db.Kategoris
+                        .Where(p => p.Adi == kategoriAdi)
+                        .Include(u => u.Urunler)
+                        .ToList();
+        }
+
         #endregion
 
         #region SİPARİŞ DETAY İŞLEMLERİ (SiparisItem)
@@ -318,7 +396,6 @@ namespace DersWebSatis
             return $"Sipariş Ürünü eklendi";
         }
 
-
         // SiparisItem Ekle (toplu)
         public string SiparisItemEkleToplu(List<SiparisItem> itemSiparisToplu)
         {
@@ -328,13 +405,11 @@ namespace DersWebSatis
             return "Sipariş detayları eklendi";
         }
 
-
         // SiparisItem Listele
         public List<SiparisItem> SiparisItemListele()
         {
             return _db.SiparisItems.ToList();
         }
-
 
         // Sipariş bazlı SiparişItem Toplamı
         public void SiparisItemGrupBazliToplam(List<SiparisItem> siparisItems)
@@ -353,6 +428,5 @@ namespace DersWebSatis
             }
         }
         #endregion
-
     }
 }
