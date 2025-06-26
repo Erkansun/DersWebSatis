@@ -1,6 +1,7 @@
 ﻿using DersWebSatis.Data;
 using DersWebSatis.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Runtime.ConstrainedExecution;
 
@@ -567,22 +568,22 @@ namespace DersWebSatis
             //dbHelper.KategoriBazliUrunSayisi();
 
 
-            //// 7- Kategori adı "Giyim" olan ürünleri listeleyin.
-            //Console.Write("Ürünlerini görmek istediğiniz kategori adı: ");
-            //string kategoriAdi = Console.ReadLine();
+            // 7- Kategori adı "Giyim" olan ürünleri listeleyin.
+            Console.Write("Ürünlerini görmek istediğiniz kategori adı: ");
+            string kategoriAdi = Console.ReadLine();
 
-            //List<UrunKategori> kategoriSonuc = dbHelper.KategoriAdiGiyimUrunleri(kategoriAdi);
+            List<UrunKategori> kategoriSonuc = dbHelper.KategoriAdiGiyimUrunleri(kategoriAdi);
 
-            //Console.WriteLine($"{kategoriAdi} kategorisindeki ürünlerin listesi");
-            //Console.WriteLine("--------------------------------------");
+            Console.WriteLine($"{kategoriAdi} kategorisindeki ürünlerin listesi");
+            Console.WriteLine("--------------------------------------");
 
-            //foreach (var kategori in kategoriSonuc)
-            //{
-            //    foreach (var item in kategori.Urunler.OrderBy(p => p.Adi))
-            //    {
-            //        Console.WriteLine($"Ürün adı: {item.Adi} - barkodu: {item.BarkodNo} - stok: {item.Stok} - fiyat: {item.BirimFiyat.ToString("N0")} TL");
-            //    }  
-            //}
+            foreach (var kategori in kategoriSonuc)
+            {
+                foreach (var item in kategori.Urunler.OrderBy(p => p.Adi))
+                {
+                    Console.WriteLine($"Ürün adı: {item.Adi} - barkodu: {item.BarkodNo} - stok: {item.Stok} - fiyat: {item.BirimFiyat.ToString("N0")} TL");
+                }
+            }
 
 
             //// 8- 2024 yılında eklenmiş ürünleri bulun.
@@ -639,8 +640,56 @@ namespace DersWebSatis
             //    }
             //}
 
-            // 12 - Diğer bir yöntem
-            dbHelper.SiparisListesiMusteriBazli();
+            //// 12 - Diğer bir yöntem
+            //dbHelper.SiparisListesiMusteriBazli();
+
+
+            //// 13 - Pasif olmayan kullanıcıların email adreslerini alın.
+            //List<Kullanici> kullanicilar = dbHelper.TumKullanicilariListele();
+
+            //foreach (var kullanici in kullanicilar.Where(p => p.IsPassive == false))
+            //{
+            //    Console.WriteLine($"{kullanici.AdSoyad} -> {kullanici.Email}");
+            //}
+
+
+            //// 14- Her siparişi, kullanıcının adı ve sipariş tarihi ile birlikte getirin.
+            //List<Siparis> siparisMusteri = dbHelper.EnCokHarcamaYapanMusteri();
+
+            //foreach (var siparis in siparisMusteri)
+            //{
+            //    Console.WriteLine($"Sipariş No: {siparis.SiparisNo} - Kullanıcı Adı: {siparis.Kullanici.AdSoyad} - Sipariş Tarihi: {siparis.OlusturulmaTarihi.ToString("yyyy-MM-dd")}");
+            //}
+
+
+            //// 15 - Siparişleri ve o siparişteki toplam ürün adetlerini(adet toplamı) listeleyin.
+            //List<Siparis> liste = dbHelper.SiparisBazliUrunToplam();
+
+            //foreach (var item in liste)
+            //{
+            //    Console.WriteLine($"Sipariş: {item.SiparisNo} - Ürün adet toplamı: {item.SiparisItems.Count()}");
+            //}
+
+
+            //// 16 - En yüksek toplam tutara sahip siparişi ve kullanıcısını listeleyin.
+            //List<Siparis> siparisMusteriEn = dbHelper.SiparisMusteriBazliEnYuksek();
+
+            //foreach (var siparis in siparisMusteriEn)
+            //{
+            //    Console.WriteLine($"{siparis.SiparisNo} [{siparis.Toplam.ToString("N0")} TL] - {siparis.Kullanici.AdSoyad}");
+            //}
+
+
+            // 17 - Her ürünün kaç kez sipariş edildiğini ve toplam satış tutarını listeleyin.
+
+
+            // 18 - Hiç sipariş verilmemiş ürünleri bulun.
+
+
+            // 19 - Son 1 yılda satılan ürünlerin toplam satış adedini ve cirosunu(adet ve ara toplam) getirin.
+
+
+            // 20 - Siparişlerde geçen ürünlerin kategoriye göre toplam satış adetlerini gruplandırarak listeleyin
 
 
 

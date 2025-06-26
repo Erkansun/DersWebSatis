@@ -470,6 +470,26 @@ namespace DersWebSatis
                 Console.WriteLine($"Sipariş Id: {item.SiparisId} - Sipariş toplamı: {item.toplamAra}");
             }
         }
+
+        // Sipariş Bazlı Ürün Toplamı
+        public List<Siparis> SiparisBazliUrunToplam()
+        {
+            return _db.Sipsaris
+                .Include(p => p.SiparisItems)
+                .ToList();
+        }
+
+        //Sipariş Bazlı Kullanicilar
+        public List<Siparis> SiparisMusteriBazliEnYuksek()
+        {
+            return _db.Sipsaris
+                        .Include(k => k.Kullanici)
+                        .OrderByDescending(s => s.Toplam)
+                        .Take(1)
+                        .ToList();
+                        
+        }
+
         #endregion
 
 
