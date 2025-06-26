@@ -618,28 +618,29 @@ namespace DersWebSatis
             //dbHelper.KullaniciToplamHarcamaYazdir();
 
 
-            // 12- Son 30 gün içinde sipariş vermiş kullanıcıları listeleyin.
+            //// 12- Son 30 gün içinde sipariş vermiş kullanıcıları listeleyin.
 
-            List<Siparis> sipariss = dbHelper.SiparisListesi();
+            //List<Siparis> sipariss = dbHelper.SiparisListesi();
 
-            var musteriListesi = dbHelper.TumKullanicilariListele();
+            //var musteriListesi = dbHelper.TumKullanicilariListele();
 
-            foreach (var siparis in sipariss)
-            {
-                if (sipariss.Any())
-                {
-                    foreach (var musteri in musteriListesi.Where(p => p.Id == siparis.KullaniciId))
-                    {
-                        Console.WriteLine($"{musteri.AdSoyad} - {musteri.Email} - {siparis.OlusturulmaTarihi}");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Son 30 gün içinde listelenecek veri bulunamadı");
-                }
-            }
+            //foreach (var siparis in sipariss)
+            //{
+            //    if (sipariss.Any())
+            //    {
+            //        foreach (var musteri in musteriListesi.Where(p => p.Id == siparis.KullaniciId))
+            //        {
+            //            Console.WriteLine($"{musteri.AdSoyad} - {musteri.Email} - {siparis.OlusturulmaTarihi}");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Son 30 gün içinde listelenecek veri bulunamadı");
+            //    }
+            //}
 
-
+            // 12 - Diğer bir yöntem
+            dbHelper.SiparisListesiMusteriBazli();
 
 
 

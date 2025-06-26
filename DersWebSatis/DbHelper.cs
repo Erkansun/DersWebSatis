@@ -309,6 +309,27 @@ namespace DersWebSatis
                 .ToList();
         }
 
+        // Son 30 gün içinde sipariş vermiş kullanıcıların listesi
+        public void SiparisListesiMusteriBazli()
+        {
+            var liste = _db.Sipsaris
+                              .Include(m => m.Kullanici)
+                              .Where(t => t.OlusturulmaTarihi >= DateTime.Now.AddDays(-30) && t.OlusturulmaTarihi <= DateTime.Now)
+                              .OrderByDescending(t => t.OlusturulmaTarihi)
+                              .Select(s => new
+                              {
+                                  s.Kullanici.AdSoyad,
+                                  s.Kullanici.Email,
+                                  s.OlusturulmaTarihi
+                              })
+                             .ToList();
+
+            foreach (var item in liste)
+            {
+                Console.WriteLine($"{item.AdSoyad} - {item.Email} [{item.OlusturulmaTarihi.ToString("dd-MMMM-yyyy")}]");
+            }
+        }
+
         #endregion
 
         #region KATEGORİ BAZLI ÜRÜN İŞLEMLERİ
@@ -456,8 +477,8 @@ namespace DersWebSatis
         public List<dto_UrunAdFiyat> dtoUrunListele()
         {
             List<dto_UrunAdFiyat> sonuc = _db.Uruns
-                                                .Select(p=> new dto_UrunAdFiyat
-                                                 {
+                                                .Select(p => new dto_UrunAdFiyat
+                                                {
                                                     Adi = p.Adi,
                                                     Fiyat = p.BirimFiyat
                                                 })
